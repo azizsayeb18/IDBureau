@@ -1,0 +1,110 @@
+<header>
+  <div class="header-top">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="top-left pull-left">
+            <div class="language">
+              <form action="#" method="post" enctype="multipart/form-data" id="language">
+                <div class="btn-group">
+                  <button class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> English <span class="caret"></span></button>
+                  <ul class="dropdown-menu">
+                    <li><a href="#">Arabic</a></li>
+                    <li><a href="#"> English</a></li>
+                    <li><a href="#"> French</a></li>
+                  </ul>
+                </div>
+              </form>
+            </div>
+            <div class="currency">
+              <form action="#" method="post" enctype="multipart/form-data" id="currency">
+                <div class="btn-group">
+                  <button class="btn btn-link dropdown-toggle" data-toggle="dropdown"> <strong>USD</strong> <span class="caret"></span> </button>
+                  <ul class="dropdown-menu">
+                    <li><a href="#">Euro</a></li>
+                    <li><a href="#">Pound</a></li>
+                    <li><a href="#">USD</a></li>
+                  </ul>
+                </div>
+              </form>
+            </div>
+            <div class="wel-come-msg"> Welcome to our online store! </div>
+          </div>
+          <div class="top-right pull-right">
+            <div id="top-links" class="nav pull-right">
+              <ul class="list-inline">
+                <li class="dropdown"><a href="#" title="My Account" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user" aria-hidden="true"></i><span>My Account</span> <span class="caret"></span></a>
+                  <ul class="dropdown-menu dropdown-menu-right">
+                  {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    <li><a href="{{ path('fos_user_security_logout') }}">
+                                {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                            </a><a href="{{ path('fos_user_profile_show') }}">{{ app.user.username }}</a></li>
+                            {% else %}
+                    <li><a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a></li>
+                    {% endif %}
+                  </ul>
+                </li>
+                <li><a href="#" id="wishlist-total" title="Wish List (0)"><i class="fa fa-heart" aria-hidden="true"></i><span>Wish List</span><span> (0)</span></a></li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="header-inner">
+      <div class="col-sm-3 col-xs-3 header-left">
+        <div id="logo"> <a href="/template/index.html.twig"><img src="/moonstore/image/logo.png" title="E-Commerce" alt="E-Commerce" class="img-responsive" /></a> </div>
+      </div>
+      <div class="col-sm-9 col-xs-9 header-right">
+        <div id="search" class="input-group">
+          <input type="text" name="search" value="" placeholder="Enter your keyword ..." class="form-control input-lg" />
+          <span class="input-group-btn">
+          <button type="button" class="btn btn-default btn-lg"><span>Search</span></button>
+          </span> </div>
+          
+        <div id="cart" class="btn-group btn-block" >
+         <a class="btn btn-inverse btn-block btn-lg dropdown-toggle cart-dropdown-button" href="{{ path('produit_viewC') }}"><span id="cart-total" > <span>Panier</span><br>
+          3 item(s) - $254.00</span></i></a>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</header>
+    <nav id="menu" class="navbar">
+  <div class="nav-inner">
+    <div class="navbar-header"><span id="category" class="visible-xs">Categories</span>
+      <button type="button" class="btn btn-navbar navbar-toggle" ><i class="fa fa-bars"></i></button>
+    </div>
+ 
+    <div class="navbar-collapse">
+      <ul class="main-navigation">
+         
+         {% if category %}
+         {% if subcategory %}
+           {% for category in category %}
+           
+        
+           
+            <li><a href="{{ path('product_cat', { 'id': category.id }) }}" class="active parent">{{category.name}}</a> 
+        
+             <ul> 
+            {% for subcategory in category.subcategory %}
+             <li><a href="{{ path('product_subcat', { 'id': subcategory.id }) }}"class="active parent">{{subcategory.nom}}</a></li>
+             {% endfor %}
+             </ul>
+              
+
+           </li>
+            {% endfor %}
+       {% endif %}
+  
+{% endif %}
+      </ul>
+    </div>
+
+  </div>
+</nav>

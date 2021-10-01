@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+{% block title%} Panier{% endblock %}
+{% block body %}
+<div class="col-sm-9" id="content">
+      <form enctype="multipart/form-data" method="post" action="#">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <td class="text-center">Image</td>
+                <td class="text-left">Product Name</td>
+                <td class="text-left">Model</td>
+                <td class="text-left">Quantity</td>
+                <td class="text-right">Unit Price</td>
+                <td class="text-right">Total</td>
+              </tr>
+            </thead>
+            <tbody>
+            {% for cart in carts %}
+              <tr>
+                <td class="text-center"><a href="product.html"><img class="img-thumbnail" title="iPhone" alt="iPhone" src="{{ asset('/uploads/images/products/' ~ cart.idProduit.image) }}"></a></td>
+                <td class="text-left"><a href="product.html">{{cart.idProduit.nom}}</a></td>
+                <td class="text-left">{{cart.idProduit.marque}}</td>
+                <td class="text-left"><div style="max-width: 200px;" class="input-group btn-block">
+                    <input type="text" class="form-control quantity" size="{{cart.quantite}}" value="{{cart.quantite}}" name="quantity">
+                    <span class="input-group-btn">
+                    <button class="btn btn-primary" title="" data-toggle="tooltip" type="submit" data-original-title="Update"><i class="fa fa-refresh"></i></button>
+                    <a class="btn btn-danger" href="{{ path('cart_delete', { 'id': cart.id }) }}" data-original-title="Remove"><i class="fa fa-times-circle"></i></a>
+                    </span></div></td>
+                <td class="text-right">{{cart.idProduit.prix}}</td>
+                <td class="text-right">{{cart.quantite * cart.idProduit.prix}}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% set tot=0 %}
+                        {% for cart in carts %}
+                            {% set tot = tot + cart.quantite * cart.idProduit.prix %}
+                        {% endfor %}
+      </form>
+      <h2>What would you like to do next?</h2>
+      <p>Choose if you have a discount code or reward points you want to use or would like to estimate your delivery cost.</p>
+      <br>
+      <div class="row">
+        <div class="col-sm-4 col-sm-offset-8">
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <td class="text-right"><strong>Total:</strong></td>
+                <td class="text-right">{{tot}} TND</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="buttons">
+        <div class="pull-left"><a class="btn btn-default" href="{{ path('product') }}">Continue Shopping</a></div>
+        <div class="pull-right"><a class="btn btn-primary" href="{{ path('produit_commande', { 'tot': tot}) }}">Valider Votre Commande</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
